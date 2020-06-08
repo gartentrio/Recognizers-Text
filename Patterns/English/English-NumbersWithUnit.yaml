@@ -871,7 +871,7 @@ AmbiguousVolumeUnitList: !list
 WeightSuffixList: !dictionary
   types: [ string, string ]
   entries:
-    Kilogram: kg|kilogram|kilograms|kilo|kilos|k1lo
+    Kilogram: kg|kilogram|kilograms|kilo|kilos|kiiloo
     Gram: g|gram|grams
     Milligram: mg|milligram|milligrams
     Gallon: -gallon|gallons|gallon
