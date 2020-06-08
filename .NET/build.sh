@@ -18,7 +18,7 @@ else
         exit 1;
     fi
 fi
-command -v msbuild >/dev/null 2>&1 || { echo >&2 "MSBuild not found. Make sure it's installed and included in PATH. Aborting."; exit 1; }
+#command -v msbuild >/dev/null 2>&1 || { echo >&2 "MSBuild not found. Make sure it's installed and included in PATH. Aborting."; exit 1; }
 
 echo "// Restoring NuGet dependencies"
 $nuget_command restore
@@ -26,7 +26,7 @@ $nuget_command restore
 echo "// Build .NET solution ($BUILD_CONFIGURATION)"
 rm -rf build
 mkdir -p build/package
-msbuild Microsoft.Recognizers.Text.sln \
+dotnet msbuild Microsoft.Recognizers.Text.sln \
         /p:Configuration="$BUILD_CONFIGURATION" \
         /t:Clean,Build
 
