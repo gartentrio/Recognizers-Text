@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Recognizers.Text;
+using Microsoft.Recognizers.Text.Choice;
 using Microsoft.Recognizers.Text.DateTime;
 using Microsoft.Recognizers.Text.Number;
 using Microsoft.Recognizers.Text.NumberWithUnit;
+using Microsoft.Recognizers.Text.Sequence;
 using Newtonsoft.Json;
 
 namespace Recognizer
@@ -64,17 +67,26 @@ namespace Recognizer
         /// </summary>
         private static IEnumerable<ModelResult> ParseAll(string query, string culture, string type)
         {
-            if (type == "number")
+            return type switch
             {
-                return MergeResults(NumberRecognizer.RecognizeNumber(query, culture));
-            }
-
-            if (type == "datetime")
-            {
-                return MergeResults(DateTimeRecognizer.RecognizeDateTime(query, culture));
-            }
-
-            return MergeResults(NumberWithUnitRecognizer.RecognizeDimension(query, culture));
+                "ordinal" => NumberRecognizer.RecognizeOrdinal(query, culture),
+                "percentage" => NumberRecognizer.RecognizePercentage(query, culture),
+                "number" => NumberRecognizer.RecognizeNumberRange(query, culture),
+                "age" => NumberWithUnitRecognizer.RecognizeAge(query, culture),
+                "currency" => NumberWithUnitRecognizer.RecognizeCurrency(query, culture),
+                "dimension" => NumberWithUnitRecognizer.RecognizeDimension(query, culture),
+                "temperature" => NumberWithUnitRecognizer.RecognizeTemperature(query, culture),
+                "datetime" => DateTimeRecognizer.RecognizeDateTime(query, culture),
+                "phonenumber" => SequenceRecognizer.RecognizePhoneNumber(query, culture),
+                "ipaddress" => SequenceRecognizer.RecognizeIpAddress(query, culture),
+                "mention" => SequenceRecognizer.RecognizeMention(query, culture),
+                "hashtag" => SequenceRecognizer.RecognizeHashtag(query, culture),
+                "email" => SequenceRecognizer.RecognizeEmail(query, culture),
+                "url" => SequenceRecognizer.RecognizeURL(query, culture),
+                "guid" => SequenceRecognizer.RecognizeGUID(query, culture),
+                "boolean" => ChoiceRecognizer.RecognizeBoolean(query, culture),
+                _ => new List<ModelResult>()
+            };
         }
 
         private static IEnumerable<ModelResult> MergeResults(params List<ModelResult>[] results)
