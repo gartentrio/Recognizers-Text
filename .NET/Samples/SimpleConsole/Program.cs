@@ -69,9 +69,10 @@ namespace Recognizer
         {
             return type switch
             {
+                "number" => NumberRecognizer.RecognizeNumber(query, culture),
                 "ordinal" => NumberRecognizer.RecognizeOrdinal(query, culture),
                 "percentage" => NumberRecognizer.RecognizePercentage(query, culture),
-                "number" => NumberRecognizer.RecognizeNumberRange(query, culture),
+                "numberrange" => NumberRecognizer.RecognizeNumberRange(query, culture),
                 "age" => NumberWithUnitRecognizer.RecognizeAge(query, culture),
                 "currency" => NumberWithUnitRecognizer.RecognizeCurrency(query, culture),
                 "dimension" => NumberWithUnitRecognizer.RecognizeDimension(query, culture),
